@@ -1,0 +1,36 @@
+{
+  "name": "storybooks",
+  "version": "1.0.0",
+  "description": "App to share public or write private stories",
+  "main": "index.js",
+  "engines": {
+    "node": "10.13.0",
+    "npm": "6.4.1"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js --ignore './client/'",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
+    "cookie-session": "^2.0.0-beta.3",
+    "express": "^4.16.4",
+    "gravatar": "^1.8.0",
+    "install": "^0.12.2",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.4.3",
+    "passport": "^0.4.0",
+    "passport-github2": "^0.1.11",
+    "passport-google-oauth20": "^1.0.0",
+    "passport-jwt": "^4.0.0",
+    "passport-twitter": "^1.0.4",
+    "validator": "^10.10.0"
+  }
+}
