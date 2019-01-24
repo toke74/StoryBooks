@@ -1,0 +1,49 @@
+.app {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+.github {
+  margin-top: 10px;
+  padding-right: 35px;
+  background-color: rgba(0, 0, 0, 0.781);
+}
+.backtodash {
+  margin-top: 15px;
+}
+
+.edit {
+  margin-right: 10px;
+  margin-left: 40px;
+}
+
+.login {
+  margin-top: 55px;
+}
+
+.register {
+  margin-top: 55px;
+}
+main {
+  flex: 1 0 auto;
+}
+
+.nav-wrapper .fa-bars {
+  font-size: 25px;
+}
+
+footer {
+  margin-top: 5px;
+}
+
+.story-text {
+  height: 120px;
+}
+
+.dash-status {
+  text-transform: capitalize;
+}
+
+#delete-form {
+  display: inline;
+}
