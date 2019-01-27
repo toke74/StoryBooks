@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logoutUser } from "../../actions/authActions";
 
 export class Navbar extends Component {
   render() {
@@ -36,8 +35,8 @@ export class Navbar extends Component {
     );
 
     const authSideLinks = (
-      <ul className="side-nav sidebar" id="main-menu">
-        <li>
+      <ul className="side-nav " id="main-menu">
+        <li className="sidebar">
           <a href="/public/stories">
             <i className="fa fa-book" /> Public Stories
           </a>
@@ -62,25 +61,8 @@ export class Navbar extends Component {
       </ul>
     );
     const guestSideLinks = (
-      <ul className="side-nav sidebar" id="main-menu">
-        <li>
-          <a href="/login">
-            <i className="fa fa-sign-in" />
-            Login
-          </a>
-        </li>
-        <li>
-          <a href="/register">
-            <i className="fa fa-user-plus" />
-            Register
-          </a>
-        </li>
-        <li>
-          <Link to="/public/stories">
-            <i className="fa fa-book" /> Public Stories
-          </Link>
-        </li>
-        <li>
+      <ul className="side-nav " id="main-menu">
+        <li className="sidebar">
           <a className="btn red darken-1" href="/auth/google">
             <i className="fa fa-google left" /> Login With Google
           </a>
@@ -89,6 +71,11 @@ export class Navbar extends Component {
           <a className="btn  github " href="/auth/google">
             <i className="fa fa-github left" /> Login With Github
           </a>
+        </li>
+        <li>
+          <Link to="/public/stories">
+            <i className="fa fa-book" /> Public Stories
+          </Link>
         </li>
       </ul>
     );
@@ -119,17 +106,11 @@ export class Navbar extends Component {
 }
 
 Navbar.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
-  // errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors
+  auth: state.auth
 });
 
-export default connect(
-  mapStateToProps,
-  { logoutUser }
-)(Navbar);
+export default connect(mapStateToProps)(Navbar);

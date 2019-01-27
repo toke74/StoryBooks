@@ -26,29 +26,14 @@ module.exports = app => {
       });
   });
 
-  // Show Single Story
-  // app.get("/api/show/:id", (req, res) => {
-  //   Story.findOne({
-  //     _id: req.params.id
-  //   })
-  //     .populate("user")
-  //     // .populate('comments.commentUser')
-  //     .then(story => {
-  //       if (story.status == "public") {
-  //         res.json({ story });
-  //       } else {
-  //         if (req.user) {
-  //           if (req.user.id == story.user._id) {
-  //             res.json({ story });
-  //           } else {
-  //             res.redirect("/stories");
-  //           }
-  //         } else {
-  //           res.redirect("/stories");
-  //         }
-  //       }
-  //     });
-  // });
+  // Logged in users stories
+  app.get("/api/my/stories/:id", ensureAuthenticated, (req, res) => {
+    Story.find({ user: req.user.id })
+      .populate("user")
+      .then(stories => {
+        res.json({ stories });
+      });
+  });
 
   // Show Single Story
   app.get("/api/show/:id", (req, res) => {
@@ -56,8 +41,21 @@ module.exports = app => {
       _id: req.params.id
     })
       .populate("user")
+      .populate("comments.commentUser")
       .then(story => {
-        res.json({ story });
+        if (story.status == "public") {
+          res.json({ story });
+        } else {
+          if (req.user) {
+            if (req.user.id == story.user._id) {
+              res.json({ story });
+            } else {
+              res.redirect("/dashboard");
+            }
+          } else {
+            res.redirect("/dashboard");
+          }
+        }
       });
   });
 
@@ -69,15 +67,6 @@ module.exports = app => {
         res.json({ story });
       });
   });
-
-  // List public stories from a user
-  // app.get("/api/my/stories/:userId", (req, res) => {
-  //   Story.find({ user: req.params.userId })
-  //     .populate("user")
-  //     .then(story => {
-  //       res.json({ story });
-  //     });
-  // });
 
   // Process Add Story
   app.post("/api/add", ensureAuthenticated, (req, res) => {
@@ -114,15 +103,15 @@ module.exports = app => {
       story.allowComments = req.body.allowComments;
 
       story.save().then(story => {
-        res.redirect("/dashboard");
+        res.json({ story });
       });
     });
   });
 
   // Delete Story
   app.delete("/api/delete/:id", ensureAuthenticated, (req, res) => {
-    Story.remove({ _id: req.params.id }).then(() => {
-      res.redirect("/dashboard");
+    Story.remove({ _id: req.params.id }).then(story => {
+      res.json({ story });
     });
   });
 };

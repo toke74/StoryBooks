@@ -21,6 +21,7 @@ export class PublicStories extends Component {
     } else {
       const stories = this.props.story.story.stories;
       const newStory = Array.from(stories);
+      console.log(stories);
 
       if (newStory) {
         //story.user.id user.id story.id
@@ -53,9 +54,7 @@ export class PublicStories extends Component {
                       ellipsis={
                         <span>
                           ...{" "}
-                          <Link to={`/api/fullstory/${story._id}`}>
-                            Read more
-                          </Link>
+                          <Link to={`/api/show/${story._id}`}>Read more</Link>
                         </span>
                       }
                     >
@@ -71,7 +70,7 @@ export class PublicStories extends Component {
                   </div>
                 </div>
                 <div className="card-action center-align">
-                  <Link className="btn grey" to={`/api/fullstory/${story._id}`}>
+                  <Link className="btn grey" to={`/api/show/${story._id}`}>
                     Read More
                   </Link>
                 </div>

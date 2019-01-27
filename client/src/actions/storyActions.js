@@ -3,7 +3,6 @@ import { ADD_STORY, GET_ERRORS, STORY_LOADING } from "./types";
 
 // Logged in users stories
 export const getStory = () => dispatch => {
-  // dispatch(setStoryLoading());
   axios
     .get("/api/my")
     .then(res => {
@@ -40,7 +39,6 @@ export const getPublicStories = () => dispatch => {
 
 // get single story
 export const getSingleStory = id => dispatch => {
-  // dispatch(setStoryLoading());
   axios
     .get(`/api/show/${id}`)
     .then(res => {
@@ -58,7 +56,6 @@ export const getSingleStory = id => dispatch => {
 };
 // get public stories
 export const getUserPublicStories = id => dispatch => {
-  // dispatch(setStoryLoading());
   axios
     .get(`/api/user/stories/${id}`)
     .then(res => {
@@ -76,7 +73,6 @@ export const getUserPublicStories = id => dispatch => {
 };
 // get my stories
 export const getMyStories = id => dispatch => {
-  // dispatch(setStoryLoading());
   axios
     .get(`/api/my/stories/${id}`)
     .then(res => {
@@ -94,11 +90,24 @@ export const getMyStories = id => dispatch => {
 };
 
 // add story
-export const addStory = (userData, history) => dispatch => {
+export const addStory = (storyData, history) => dispatch => {
   axios
-    .post("/api/add", userData)
+    .post("/api/add", storyData)
     .then(res => {
-      console.log(res);
+      history.push("/dashboard");
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+// add story
+export const editStory = (id, storyData, history) => dispatch => {
+  axios
+    .put(`/api/edit/${id}`, storyData)
+    .then(res => {
       history.push("/dashboard");
     })
     .catch(err =>
@@ -117,20 +126,18 @@ export const setStoryLoading = () => {
 };
 
 // Delete story
-export const deleteStory = id => dispatch => {
-  axios
-    .delete(`/api/delete/${id}`)
-    .then(res => {
-      console.log(res.data);
-      // dispatch({
-      //   type: GET_STORY,
-      //   payload: res.data
-      // });
-    })
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
+export const deleteStory = (id, history) => dispatch => {
+  if (window.confirm("Are you sure? This can NOT be undone!")) {
+    axios
+      .delete(`/api/delete/${id}`)
+      .then(res => {
+        history.push("/");
       })
-    );
+      .catch(err =>
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+        })
+      );
+  }
 };

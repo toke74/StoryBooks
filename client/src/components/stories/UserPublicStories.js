@@ -14,56 +14,65 @@ export class UserPublicStories extends Component {
 
   render() {
     const { story } = this.props.story.story;
-    const { user, isAuthenticated } = this.props.auth;
+    const { user } = this.props.auth;
     const newStory = Array.from(story);
-    const editIcon = isAuthenticated ? (
-      <div className="card-image right-align">
-        <Link to={`/api/edit/${story._id}`}>
-          <Icon className="" color="secondary">
-            edit
-          </Icon>
-        </Link>
-      </div>
-    ) : null;
 
-    console.log(this.props.auth);
     let publicUserStories;
     if (newStory) {
-      publicUserStories = newStory.map(story => (
-        <div key={story._id} className="col s12 m4">
-          <div className="card">
-            {editIcon}
-            <div className="card-content center-align">
-              <h5>{story.title}</h5>
-              <p className="story-text">
-                <Truncate
-                  lines={3}
-                  ellipsis={
-                    <span>
-                      ...{" "}
-                      <Link to={`/api/fullstory/${story._id}`}>Read more</Link>
-                    </span>
-                  }
-                >
-                  {story.body}
-                </Truncate>
-              </p>
-              <br />
-              <div className="chip">
-                <img src={user.image} alt="" />
-                <Link to="/dashboard">
-                  {user.firstName} {user.lastName}
+      let editIcon;
+
+      publicUserStories = newStory.map(story => {
+        if (user._id === story.user._id) {
+          editIcon = (
+            <div className="card-image right-align">
+              <Link to={`/api/edit/${story._id}`}>
+                <Icon className="" color="secondary">
+                  edit
+                </Icon>
+              </Link>
+            </div>
+          );
+        } else {
+          editIcon = null;
+        }
+        return (
+          <div key={story._id} className="col s12 m4">
+            <div className="card">
+              {editIcon}
+              <div className="card-content center-align">
+                <h5>{story.title}</h5>
+                <p className="story-text">
+                  <Truncate
+                    lines={3}
+                    ellipsis={
+                      <span>
+                        ...{" "}
+                        <Link to={`/api/fullstory/${story._id}`}>
+                          Read more
+                        </Link>
+                      </span>
+                    }
+                  >
+                    {story.body}
+                  </Truncate>
+                </p>
+                <br />
+                <div className="chip">
+                  <img src={user.image} alt="" />
+                  <Link to="/dashboard">
+                    {user.firstName} {user.lastName}
+                  </Link>
+                </div>
+              </div>
+              <div className="card-action center-align">
+                <Link className="btn grey" to={`/api/fullstory/${story._id}`}>
+                  Read More
                 </Link>
               </div>
             </div>
-            <div className="card-action center-align">
-              <Link className="btn grey" to={`/api/fullstory/${story._id}`}>
-                Read More
-              </Link>
-            </div>
           </div>
-        </div>
-      ));
+        );
+      });
     } else {
       publicUserStories = <p>No stories found</p>;
     }

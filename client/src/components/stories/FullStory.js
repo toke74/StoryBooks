@@ -14,7 +14,7 @@ export class FullStory extends Component {
   render() {
     const { story } = this.props.story.story;
     const { user } = this.props.auth;
-    console.log(this.props.match);
+    console.log(this.props.story.story);
     let SigleStoryContent;
 
     if (story && user) {

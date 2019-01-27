@@ -39,8 +39,6 @@ export class AddStory extends Component {
       allowComments: this.state.allowComments
     };
     this.props.addStory(story, this.props.history);
-
-    console.log(story);
   };
 
   render() {
@@ -113,12 +111,10 @@ export class AddStory extends Component {
   }
 }
 AddStory.propTypes = {
-  addStory: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired
+  addStory: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  // auth: state.auth,
   errors: state.errors
 });
 

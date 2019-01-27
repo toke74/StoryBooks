@@ -11,16 +11,43 @@ export class ShowSingleStory extends Component {
     const id = this.props.match.params.id;
     this.props.getSingleStory(id);
   }
+  componentWillReceiveProps(nextProps) {
+    // console.log(nextProps);
+  }
   render() {
     const { story } = this.props.story.story;
     const { user } = this.props.auth;
-    // console.log(this.props.match);
-    // console.log(user);
     // console.log(story);
-
     let SigleStoryContent;
+    let showComment;
+    let checkUser;
 
     if (story && user) {
+      if (story.allowComments) {
+        checkUser = user ? (
+          <form method="post" action="/stories/comment/{{story.id}}">
+            <div className="input-field">
+              <textarea name="commentBody" className="materialize-textarea" />
+              <label> Add Comment</label>
+            </div>
+            <input type="submit" value="Submit" className="btn" />
+          </form>
+        ) : (
+          <p>
+            Please <a href="/auth/google">log</a> in to leave a comment
+          </p>
+        );
+        showComment = (
+          <div className="card">
+            <div className="card-content">
+              <span className="card-title">Comments</span>
+              {checkUser}
+            </div>
+          </div>
+        );
+      } else {
+        showComment = null;
+      }
       SigleStoryContent = (
         <div className="row">
           <div className="col s12 m8">
@@ -33,8 +60,8 @@ export class ShowSingleStory extends Component {
                 {story.body}
               </div>
             </div>
+            {showComment}
           </div>
-
           <div className="col s12 m4">
             <div className="card center-align">
               <div className="card-content">
@@ -51,9 +78,6 @@ export class ShowSingleStory extends Component {
                 <Link to={`/public/stories/${story.user._id}`}>
                   More From {story.user.firstName}
                 </Link>
-                {/* <a href="/stories/user/story.user.id">
-                  More From {story.user.firstName}
-                </a> */}
               </div>
             </div>
           </div>

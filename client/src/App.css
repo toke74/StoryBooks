@@ -16,13 +16,8 @@
   margin-right: 10px;
   margin-left: 40px;
 }
-
-.login {
-  margin-top: 55px;
-}
-
-.register {
-  margin-top: 55px;
+.sidebar {
+  margin-top: 20px;
 }
 main {
   flex: 1 0 auto;

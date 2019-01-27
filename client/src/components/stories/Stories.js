@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -7,7 +7,7 @@ import { deleteStory } from "../../actions/storyActions";
 
 export class Stories extends Component {
   onDeleteClick(id) {
-    this.props.deleteStory(id);
+    this.props.deleteStory(id, this.props.history);
   }
 
   render() {
@@ -30,9 +30,9 @@ export class Stories extends Component {
           </td>
           <td>
             {" "}
-            <a className="btn left-align edit" href={`/api/edit/${story._id}`}>
+            <Link className="btn left-align edit" to={`/api/edit/${story._id}`}>
               <i className="fa fa-pencil" /> Edit
-            </a>{" "}
+            </Link>
             <button
               type="submit"
               className="btn red"
@@ -71,4 +71,4 @@ Stories.propTypes = {
 export default connect(
   null,
   { deleteStory }
-)(Stories);
+)(withRouter(Stories));

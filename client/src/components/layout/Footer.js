@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 export default () => {
   return (
     <footer className="page-footer grey darken-3">
@@ -15,9 +15,9 @@ export default () => {
             <h5 className="white-text">Links</h5>
             <ul>
               <li>
-                <a className="grey-text text-lighten-3" href="/stories">
+                <Link to="/public/stories" className="grey-text text-lighten-3">
                   Public Stories
-                </a>
+                </Link>
               </li>
               <li>
                 <a className="grey-text text-lighten-3" href="/about">

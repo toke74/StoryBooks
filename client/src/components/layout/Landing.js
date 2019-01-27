@@ -4,14 +4,12 @@ import { connect } from "react-redux";
 
 export class Landing extends Component {
   componentDidMount() {
-    console.log(this.props.auth.isAuthenticated);
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(this.props.history);
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
     }
