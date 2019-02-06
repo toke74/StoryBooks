@@ -36,7 +36,7 @@ module.exports = app => {
   });
 
   // Show Single Story
-  app.get("/api/show/:id", (req, res) => {
+  app.get("/api/show/:id", ensureAuthenticated, (req, res) => {
     Story.findOne({
       _id: req.params.id
     })
@@ -60,7 +60,7 @@ module.exports = app => {
   });
 
   // List public stories from a user
-  app.get("/api/user/stories/:userId", (req, res) => {
+  app.get("/api/user/stories/:userId", ensureAuthenticated, (req, res) => {
     Story.find({ user: req.params.userId, status: "public" })
       .populate("user")
       .then(story => {
@@ -112,6 +112,26 @@ module.exports = app => {
   app.delete("/api/delete/:id", ensureAuthenticated, (req, res) => {
     Story.remove({ _id: req.params.id }).then(story => {
       res.json({ story });
+    });
+  });
+
+  // Add Comment
+  app.post("/comment/:id", (req, res) => {
+    Story.findOne({
+      _id: req.params.id
+    }).then(story => {
+      const newComment = {
+        commentBody: req.body.commentBody,
+        commentUser: req.user.id
+      };
+
+      // Add to comments array
+      story.comments.unshift(newComment);
+
+      story.save().then(story => {
+        res.redirect(`/stories/show/${story.id}`);
+        // res.json({ story });
+      });
     });
   });
 };
